@@ -32,11 +32,7 @@ const Header = () => {
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
             <SignedOut>
-              <SignInButton
-                mode="modal"
-                afterSignInUrl="/learn"
-                afterSignUpUrl="/learn"
-              >
+              <SignInButton mode="modal" forceRedirectUrl="/">
                 <Button size="lg" variant="ghost">
                   Login
                 </Button>
