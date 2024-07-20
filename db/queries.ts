@@ -37,20 +37,23 @@ export const getCourseById = cache(async (courseId: number) => {
 })
 
 export const getUnits = cache(async () => {
-  const userProguress = await getUserProgress()
+  const userProgress = await getUserProgress()
+  const { userId } = await auth()
 
-  if (!userProguress?.activeCourseId) {
+  if (!userId || !userProgress?.activeCourseId) {
     return []
   }
 
   const data = await db.query.units.findMany({
-    where: eq(units.courseId, userProguress.activeCourseId),
+    where: eq(units.courseId, userProgress.activeCourseId),
     with: {
       lessons: {
         with: {
           challenges: {
             with: {
-              challengeProgress: true,
+              challengeProgress: {
+                where: eq(challengeProgress.userId, userId),
+              },
             },
           },
         },
