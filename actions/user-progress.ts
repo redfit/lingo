@@ -35,14 +35,14 @@ export const upsertUseProgress = async (courseId: number) => {
       userName: user.firstName || "User",
       userImageSrc: user.imageUrl || "/mascot.svg",
     })
+  } else {
+    await db.insert(userProgress).values({
+      userId,
+      activeCourseId: courseId,
+      userName: user.firstName || "User",
+      userImageSrc: user.imageUrl || "/mascot.svg",
+    })
   }
-
-  await db.insert(userProgress).values({
-    userId,
-    activeCourseId: courseId,
-    userName: user.firstName || "User",
-    userImageSrc: user.imageUrl || "/mascot.svg",
-  })
 
   revalidatePath("/courses")
   revalidatePath("/learn")
